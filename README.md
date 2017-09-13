@@ -43,6 +43,3 @@ $ python cli.py -s S3 -b flaws.cloud -k keys.csv
 	* secret-dd02c7c.html
 ```
 
-## License
-
-todo
