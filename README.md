@@ -31,7 +31,7 @@ AWSSecretKey=XXXXXXXXXXXXXXXXXXXXXX
 ## Example Usage:
 
 ```bash
-$ python cli.py -s S3 -b flaws.cloud -k keys.csv
+$ python aws_extender_cli.py -s S3 -b flaws.cloud -k keys.csv
 ===== (flaws.cloud) =====
 [*] s3:ListMultipartUploadParts
 [*] s3:ListBucket
