@@ -1,8 +1,14 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function
 import argparse
 import re
-import urllib2
+try:
+    import urllib2 as urllib_req
+    from urllib2 import HTTPError, URLError
+except ImportError:
+    import urllib.request as urllib_req
+    from urllib.error import HTTPError, URLError
 from xml.dom.minidom import parse
 from xml.parsers.expat import ExpatError
 import boto3
@@ -83,10 +89,10 @@ def enumerate_keys(bucket, bucket_type, wordlist_path):
         bucket = bucket if bucket.endswith('/') else bucket + '/'
         for key in key_list:
             try:
-                request = urllib2.Request(bucket + key)
-                urllib2.urlopen(request, timeout=20)
+                request = urllib_req.Request(bucket + key)
+                urllib_req.urlopen(request, timeout=20)
                 keys.append(key)
-            except (urllib2.HTTPError, urllib2.URLError):
+            except (HTTPError, URLError):
                 continue
     return keys
 
@@ -426,19 +432,19 @@ def test_az_bucket(bucket_uri, _, wordlist_path=''):
         bucket_uri = 'https://' + bucket_uri
 
     try:
-        request = urllib2.Request(bucket_uri + '?comp=list&maxresults=10')
-        response = urllib2.urlopen(request, timeout=20)
+        request = urllib_req.Request(bucket_uri + '?comp=list&maxresults=10')
+        response = urllib_req.urlopen(request, timeout=20)
         blobs = parse(response).documentElement.getElementsByTagName('Name')
         for blob in blobs:
             keys.append(blob.firstChild.nodeValue.encode('utf-8'))
         issues.append('Full public read access\n\t* %s' % '\n\t* '.join(keys))
-    except (urllib2.HTTPError, AttributeError):
+    except (HTTPError, AttributeError):
         if wordlist_path:
             keys += enumerate_keys(bucket_uri, 'azure', wordlist_path)
             if keys:
                 issues.append('Public read access for blobs only\n\t* %s' %
                               '\n\t* '.join(keys))
-    except (urllib2.URLError, ExpatError):
+    except (URLError, ExpatError):
         return
 
     if not issues:
@@ -494,7 +500,7 @@ def main():
         if args.output:
             save_output(issues, args.output)
         else:
-            print ''.join(issues).strip()
+            print(''.join(issues).strip())
 
 if __name__ == '__main__':
     main()
