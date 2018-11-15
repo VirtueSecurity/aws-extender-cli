@@ -45,8 +45,8 @@ def init_clients(keys_path, service):
         with open(keys_path, 'r') as fkeys:
             keys = fkeys.read()
             try:
-                access_key = re.search(r'AccessKeyId[=:]([^\n]+)', keys, re.I).group(1)
-                secret_key = re.search(r'SecretKey[=:]([^\n]+)', keys, re.I).group(1)
+                access_key = re.search(r'AccessKeyId[=:]([^\n\r]+)', keys, re.I).group(1)
+                secret_key = re.search(r'SecretKey[=:]([^\n\r]+)', keys, re.I).group(1)
             except AttributeError:
                 raise ValueError('Credentials are not in the right format. '
                                  'The expected format is:\nAccessKeyId=XXXX\nSecretKey=XXXX')
