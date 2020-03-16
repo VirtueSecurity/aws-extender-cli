@@ -24,8 +24,8 @@ Below is a description of supported arguments:
 * Mutually exclusive arguments are denoted by an asterisk.
 * The `-k/--keys` argument expects the filepath of your [AWS](https://console.aws.amazon.com/iam/home?#/security_credential)/[GS](https://cloud.google.com/storage/docs/migrating#keys) keys. The keys are expected to be in the following format:
 ```
-AWSAccessKeyId=XXXXXXXXXXXXXXXXXXXX
-AWSSecretKey=XXXXXXXXXXXXXXXXXXXXXX
+aws_access_key_id=XXXXXXXXXXXXXXXXXXXX
+aws_secret_access_key=XXXXXXXXXXXXXXXXXXXXXX
 ```
 
 ## Example Usage:
