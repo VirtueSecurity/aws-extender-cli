@@ -45,11 +45,11 @@ def init_clients(keys_path, service):
         with open(keys_path, 'r') as fkeys:
             keys = fkeys.read()
             try:
-                access_key = re.search(r'AccessKeyId[=:]([^\n\r]+)', keys, re.I).group(1)
-                secret_key = re.search(r'SecretKey[=:]([^\n\r]+)', keys, re.I).group(1)
+                access_key = re.search(r'access_?key_?id[=:]([^\s]+)', keys, re.I).group(1)
+                secret_key = re.search(r'secret(?:_access_)?key[=:]([^\s]+)', keys, re.I).group(1)
             except AttributeError:
-                raise ValueError('Credentials are not in the right format. '
-                                 'The expected format is:\nAccessKeyId=XXXX\nSecretKey=XXXX')
+                raise ValueError('Credentials are not in the expected format. '
+                                 'The expected format is:\naws_access_key_id=XXXX\naws_secret_access_key=XXXX')
 
     if service == 's3':
         client = boto3.client('s3', aws_access_key_id=access_key,
